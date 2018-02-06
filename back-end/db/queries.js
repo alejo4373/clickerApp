@@ -8,13 +8,18 @@ function registerUser(req, res, next) {
     .then(response => {
       passport.authenticate("local", (err, user, info) => {
         if (user) {
-          res.status(200).json({
-            status: "success",
-            data: user,
-            message: "Registered one user"
-          });
+          //LoggsIn the user once the authentication was succesful
+          req.logIn(user, (err) =>{
+            if (err) { res.status(500).send('error') }
+            else {
+              res.status(200).json({
+              status: "success",
+              data: user,
+              message: "Registered one user and loggedin the new user" });
+            }
+          })
         }
-      })(req, res, next);
+    })(req, res, next);
     })
     .catch(err => {
       res.status(500).json({
