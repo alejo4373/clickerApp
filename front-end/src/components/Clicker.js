@@ -45,6 +45,10 @@ class Clicker extends Component {
       const newBitcoinAmount = this.state.bitcoinAmount - storeCopy[e.target.name].price;
       const newBitcoinPerSecond = this.state.bitcoinPerSecond + storeCopy[e.target.name].price;
 
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+
       this.interval = setInterval(()=> {
         this.setState({
           bitcoinAmount: this.state.bitcoinAmount + this.state.bitcoinPerSecond
