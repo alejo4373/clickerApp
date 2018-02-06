@@ -1,71 +1,13 @@
 import React, { Component } from 'react';
-import { Link, Route, Redirect } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import axios from 'axios';
-// import Clicker from './Clicker';
+import Clicker from './Clicker';
+import Register from './Register';
+import Login from './Login'; 
 
 // /register 
 // /login
 // /logout 
-
-const Register = ({ username, password, message, handleRegister, handleInput, toggleRegister }) => {
-    return (
-        <div>
-            <form onSubmit={handleRegister}>
-                <h1>Register</h1>
-                <input
-                    type='text'
-                    placeholder='username'
-                    name='username'
-                    value={username}
-                    onChange={handleInput}
-                    required />
-                <br />
-                <input
-                    type='password'
-                    placeholder='password'
-                    name='password'
-                    value={password}
-                    onChange={handleInput}
-                    required />
-                <br />
-                <input type='submit' value='Register' />
-            </form>
-            <div><p onClick={toggleRegister}>Already have an account? Login</p></div>
-            <p>{message}</p>
-            {/* <button onClick={this.toggleRegister}>Login</button> */}
-        </div>
-    )
-}
-
-const Login = ({ username, password, message, handleLogin, handleInput, toggleRegister }) => {
-    return (
-        <div>
-            <form onSubmit={handleLogin}>
-                <h1>Login</h1>
-                <input
-                    type='text'
-                    placeholder='username'
-                    name='username'
-                    value={username}
-                    onChange={handleInput}
-                    required />
-                <br />
-                <input
-                    type='password'
-                    placeholder='password'
-                    name='password'
-                    value={password}
-                    onChange={handleInput}
-                    required />
-                <br />
-                <input type='submit' value='Login' />
-            </form>
-            <div><p onClick={toggleRegister}>Register to make an account</p></div>
-            <p>{message}</p>
-            {/* <button onClick={this.toggleRegister}>Register</button> */}
-        </div>
-    )
-}
 
 class Home extends Component {
     constructor() {
@@ -90,40 +32,6 @@ class Home extends Component {
         })
     }
 
-    // User clicks Login button 
-    handleLogin = e => {
-        e.preventDefault()
-        const { username, password } = this.state
-
-        // Check username length 
-        if (username.length < 3) {
-            this.setState({
-                message: 'Username must be at least 3 characters'
-            })
-        } else {
-            // Make a post request to route /login with username, password 
-            axios
-                .post('/login', {
-                    username: username,
-                    password: password
-                })
-                .then(res => {
-                    console.log(res.data)
-                    this.setState({
-                        user: res.data,
-                        loggedIn: true
-                    })
-                })
-                .catch(err => {
-                    console.log(err)
-                    this.setState({
-                        username: '',
-                        password: '',
-                        message: 'Error logging in'
-                    })
-                })
-        }
-    }
 
     // User clicks Register button 
     handleRegister = e => {
@@ -215,27 +123,33 @@ class Home extends Component {
         )
     }
 
+    renderClicker = () => {
+        return (
+            <Clicker />
+        )
+    }
+
     render() {
         const { register, username, password, message, user, loggedIn } = this.state
         console.log(this.state)
 
-        if (loggedIn) {
-            // Redirects after user submits form
-            return <Redirect to='/clicker' />
-        }
+        // if (loggedIn) {
+        //     // Redirects after user submits form
+        //     return <Redirect to='/clicker' />
+        // }
 
         return (
             <div>
                 <nav>
                     {loggedIn ?
-                        <Link to='/'>Logout</Link>
+                        <Link to='/logout'>Logout</Link>
                         :
                         <Link to='/'>Login</Link>
                     }
                 </nav>
 
                 <Route exact path='/' render={this.renderLoginPage} />
-                {/* <Route path='/clicker' component={Clicker} /> */}
+                <Route path='/clicker' render={this.renderClicker} />
             </div>
         );
     }
