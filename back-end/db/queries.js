@@ -86,5 +86,5 @@ module.exports = {
   registerUser: registerUser,
   updateUser: updateUser,
   loginUser: loginUser,
-  logoutuser: logoutUser,
+  logoutUser: logoutUser,
 };
