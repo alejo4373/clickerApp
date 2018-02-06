@@ -64,14 +64,14 @@ class Login extends Component {
 
         return (
             <div>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={this.handleLogin}>
                     <h1>Login</h1>
                     <input
                         type='text'
                         placeholder='username'
                         name='username'
                         value={username}
-                        onChange={handleInput}
+                        onChange={this.handleInput}
                         required />
                     <br />
                     <input
@@ -79,12 +79,12 @@ class Login extends Component {
                         placeholder='password'
                         name='password'
                         value={password}
-                        onChange={handleInput}
+                        onChange={this.handleInput}
                         required />
                     <br />
                     <input type='submit' value='Login' />
                 </form>
-                <div><p onClick={toggleRegister}>Register to make an account</p></div>
+                <div><p onClick={this.toggleRegister}>Register to make an account</p></div>
                 <p>{message}</p>
                 {/* <button onClick={this.toggleRegister}>Register</button> */}
             </div>
