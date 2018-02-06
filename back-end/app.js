@@ -5,11 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//User authentication and authorization dependecies
 const session = require('express-session');
 const passport = require('passport');
-
-var users = require('./routes/users');
-var index = require('./routes/index');
 
 var app = express();
 
@@ -17,7 +15,9 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-
+//Route handlers and helpers
+const db = require('./db/queries')
+const { loginRequired } = require('./auth/helpers');
 
 // Uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -38,9 +38,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* Main routes */
-app.use('/', index);
-app.use('/users', users);
-//app.use('/game', game);
+app.get('/', (req, res, next) => {
+  res.status(200)
+     .json({
+    title: 'Welcome to the backend server for the Clicker App',
+    teamPlayers: ['Helen', 'Saimon', 'Ruben', 'Eric', 'Alejandro'],
+    routes: {
+     '/register': 'to register a new user the user will be signed in automaticlly after regestration',
+     '/login': 'if the user is already registed will allow the user to login and start a session',
+     '/logout': 'the server forgets the user' 
+    }
+  })
+});
+app.post('/register', db.registerUser);
+app.post('/login', db.loginUser);
+app.get('/logout', loginRequired, db.logoutUser);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -57,7 +69,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({ message: 'error', err: err });
 });
 
 module.exports = app;
