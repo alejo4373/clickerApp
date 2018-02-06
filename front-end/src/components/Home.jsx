@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Link, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
+// /register 
+// /login
+// /logout 
+
 class Home extends Component {
     constructor() {
         super()
@@ -64,13 +68,22 @@ class Home extends Component {
     handleRegister = e => {
         e.preventDefault();
         const { username, password } = this.state
+        let pattern = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/
 
         // Check username length 
         if (username.length < 3) {
             this.setState({
                 message: 'Username must be at least 3 characters'
             })
-        } else {
+        }
+        // Check password strength 
+        else if (!pattern.test(password)) {
+            this.setState({
+                message: 'Password must be at least 6 characters and contain: lower, upper, number'
+            })
+        }
+        // If all conditions are met, 
+        else {
             // Make a post request to route /new with new, username, password 
             axios
                 .post('/new', {
