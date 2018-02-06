@@ -7,6 +7,7 @@ class Store extends Component {
     render() {
         console.log("Store: ", this.props.secondHandLaptop)
 
+    render() {        
         return (
             <div>
                 <h1>Store</h1>
