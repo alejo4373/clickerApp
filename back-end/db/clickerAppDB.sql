@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS clicker-db
+DROP DATABASE IF EXISTS clicker_app_db;
 
-CREATE DATABASE clicker-db
+CREATE DATABASE clicker_app_db;
 
-\c clicker-db
+\c clicker_app_db;
 
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
