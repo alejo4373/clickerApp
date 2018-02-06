@@ -1,24 +1,23 @@
 import React, {Component} from 'react';
-import {Link, Route} from 'react-router-dom';
 // import logo from './logo.svg'; import './App.css';
 
 class Store extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            secondHandLaptop: {price: 30, count: 0}, 
-            newLaptop: {price: 100, count: 0},
-            desktop: {price: 600, count: 0},
-            //add more later
-        }
-    }
+    calculateRate = props => {}
 
     render() {
+        console.log("Store: ", this.props)
+        
         return (
             <div>
                 <h1>Store</h1>
-                <div><button>Buy Second Hand Laptop </button> </div>
+                <div>
+                    <button name='secondHandLaptop' onClick={this.props.handleStorePowerUpCount}>Buy Second Hand Laptop
+                    </button>
+                    <button name='newLaptop' onClick={this.props.handleStorePowerUpCount}>Buy New Laptop
+                    </button>
+                    <button name='desktop' onClick={this.props.handleStorePowerUpCount}>Buy Desktop
+                    </button>
+                </div>
             </div>
         );
     }

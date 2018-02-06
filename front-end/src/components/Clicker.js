@@ -7,9 +7,37 @@ class Clicker extends Component {
   constructor() {
     super();
 
+    this.multiplier = 1.05;
+
     this.state = {
-      totalClicks: 0
+      totalClicks: 0,
+      store: {
+        secondHandLaptop: {
+          price: 30,
+          count: 0,
+          rate: 2
+        },
+        newLaptop: {
+          price: 100,
+          count: 0,
+          rate: 50
+        },
+        desktop: {
+          price: 600,
+          count: 0,
+          rate: 100
+        }
+      }
+      //add more later
     }
+  }
+
+  handleStorePowerUpCount = e => {
+    const storeCopy = this.state.store;
+    storeCopy[e.target.name].count++;
+    this.setState({
+      store: storeCopy
+    })
   }
 
   handleClicker = () => {
@@ -19,7 +47,7 @@ class Clicker extends Component {
   }
 
   render() {
-    console.log(this.state.totalClicks)
+    console.log(this.state)
     return (
       <div>
         <div>
@@ -27,7 +55,9 @@ class Clicker extends Component {
           <button onClick={this.handleClicker}>Click me</button>
         </div>
 
-        <Store /> 
+        <Store
+          store={this.state.store}
+          handleStorePowerUpCount={this.handleStorePowerUpCount}/>
       </div>
 
     );
