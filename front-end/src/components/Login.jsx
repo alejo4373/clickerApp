@@ -59,7 +59,7 @@ class Login extends Component {
         const { username, password, message, loggedIn } = this.state
 
         if (loggedIn) {
-            return <Redirect to='/users' />
+            return <Redirect to='/clicker' />
         }
 
         return (
@@ -84,9 +84,7 @@ class Login extends Component {
                     <br />
                     <input type='submit' value='Login' />
                 </form>
-                <div><p onClick={this.toggleRegister}>Register to make an account</p></div>
                 <p>{message}</p>
-                {/* <button onClick={this.toggleRegister}>Register</button> */}
             </div>
         )
     }
