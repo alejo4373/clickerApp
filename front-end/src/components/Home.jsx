@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Link, Route, Redirect} from 'react-router-dom';
-// import logo from './logo.svg';
-// import './App.css';
+import { Link, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
-// Created a login branch... 
 
 class Home extends Component {
     constructor() {
@@ -12,50 +9,94 @@ class Home extends Component {
             register: false,
             username: '',
             password: '',
-            name: '',
-            user: null
+            message: '',
+            user: null, // mount user data once user logs in  
+            loggedIn: false // toggle true once user logs in 
         }
     }
 
+    // When user clicks Register, toggles Register screen 
+    // When user clicks Login, toggles Login screen 
     toggleRegister = () => {
         this.setState({
             register: !this.state.register,
             username: '',
-            password: '',
-            name: ''
+            password: ''
         })
     }
 
+    // User clicks Login button 
     handleLogin = e => {
         e.preventDefault()
+        const { username, password } = this.state
 
-        axios
-            .post('/login') //TBD
-            .then(res => {
-                this.setState({
-                    user: res.data
+        // Check username length 
+        if (username.length < 3) {
+            this.setState({
+                message: 'Username must be at least 3 characters'
+            })
+        } else {
+            // Make a post request to route /login with username, password 
+            axios
+                .post('/login', {
+                    username: username,
+                    password: password
                 })
-                console.log(res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
+                .then(res => {
+                    console.log(res.data)
+                    this.setState({
+                        user: res.data,
+                        loggedIn: true
+                    })
+                })
+                .catch(err => {
+                    console.log(err)
+                    this.setState({
+                        username: '',
+                        password: '',
+                        message: 'Error logging in'
+                    })
+                })
+        }
     }
 
+    // User clicks Register button 
     handleRegister = e => {
         e.preventDefault();
+        const { username, password } = this.state
 
-        axios
-            .post('/new') // TBD
-            .then(res => {
-                console.log(res.data)
+        // Check username length 
+        if (username.length < 3) {
+            this.setState({
+                message: 'Username must be at least 3 characters'
             })
-            .catch(err => {
-                console.log(err)
-            })
+        } else {
+            // Make a post request to route /new with new, username, password 
+            axios
+                .post('/new', {
+                    username: username,
+                    password: password
+                })
+                .then(res => {
+                    console.log(res.data)
+                    this.setState({
+                        username: '',
+                        password: '',
+                        message: 'Successfully registered'
+                    })
+                })
+                .catch(err => {
+                    console.log(err)
+                    this.setState({
+                        username: '',
+                        password: '',
+                        message: 'Error registering'
+                    })
+                })
+        }
     }
 
+    // Track input changes in name, username, password 
     handleInput = e => {
         this.setState({
             [e.target.name]: e.target.value
@@ -63,15 +104,12 @@ class Home extends Component {
     }
 
     render() {
-        const { register, username, password, name, user} = this.state
+        const { register, username, password, message, user, loggedIn } = this.state
         console.log(this.state)
-        if (user) {
-            //Redirects after user submits form
-            return (
-                <Redirect to={{
-                    pathname: '/clicker'
-                }} />
-            )
+
+        if (loggedIn) {
+            // Redirects after user submits form
+            return <Redirect to='/clicker' />
         }
 
         return (
@@ -80,22 +118,29 @@ class Home extends Component {
                     <div>
                         <form onSubmit={this.handleRegister}>
                             <h1>Register</h1>
-                            <input type='text' placeholder='name' name='name' value={name} onChange={this.handleInput} />
-                            <input type='text' placeholder='username' name='username' value={username} onChange={this.handleInput} />
-                            <input type='password' placeholder='password' name='password' value={password} onChange={this.handleInput} />
+                            <input type='text' placeholder='username' name='username' value={username} onChange={this.handleInput} required />
+                            <br />
+                            <input type='password' placeholder='password' name='password' value={password} onChange={this.handleInput} required />
+                            <br />
                             <input type='submit' value='Register' />
                         </form>
-                        <button onClick={this.toggleRegister}>Login</button>
+                        <div><p onClick={this.toggleRegister}>Login</p></div>
+                        <p>{message}</p>
+                        {/* <button onClick={this.toggleRegister}>Login</button> */}
                     </div>
                     :
                     <div>
                         <form onSubmit={this.handleLogin}>
                             <h1>Login</h1>
-                            <input type='text' placeholder='username' name='username' value={username} onChange={this.handleInput} />
-                            <input type='password' placeholder='password' name='password' value={password} onChange={this.handleInput} />
+                            <input type='text' placeholder='username' name='username' value={username} onChange={this.handleInput} required />
+                            <br />
+                            <input type='password' placeholder='password' name='password' value={password} onChange={this.handleInput} required />
+                            <br />
                             <input type='submit' value='Login' />
                         </form>
-                        <button onClick={this.toggleRegister}>Register</button>
+                        <div><p onClick={this.toggleRegister}>Register</p></div>
+                        <p>{message}</p>
+                        {/* <button onClick={this.toggleRegister}>Register</button> */}
                     </div>
                 }
             </div>
@@ -103,6 +148,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
-
-//Add redirect 
+export default Home; 
