@@ -13,6 +13,10 @@ class Login extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.toggleRegisterFalse()
+    }
+
     // User clicks Login button 
     handleLogin = e => {
         e.preventDefault()

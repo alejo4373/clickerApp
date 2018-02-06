@@ -25,9 +25,15 @@ class Home extends Component {
         })
     }
 
+    toggleRegisterFalse = () => {
+        this.setState({
+            register: false 
+        })
+    }
+
     renderLoginPage = () => {
         return (
-            <Login toggleRegister={this.toggleRegister} />
+            <Login toggleRegisterFalse={this.toggleRegisterFalse} />
         )
     }
 
@@ -53,14 +59,20 @@ class Home extends Component {
         const { register, user } = this.state
         console.log(this.state)
 
+        const menu = () => {
+            if (user) {
+                return <Link to='/logout'>Logout</Link>
+            } else if (register) {
+                return <Link to='/'>Login</Link>
+            } else if (!register) {
+                return <Link to='/register'>Register</Link>
+            }
+        }
+
         return (
             <div>
                 <nav>
-                    {register ?
-                        <Link to='/'>Login</Link>
-                        :
-                        <Link to='/register'>Register</Link>
-                    }
+                    {menu()}
                 </nav>
 
                 <Route exact path='/' render={this.renderLoginPage} />
