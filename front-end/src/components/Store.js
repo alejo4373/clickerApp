@@ -2,11 +2,7 @@ import React, {Component} from 'react';
 // import logo from './logo.svg'; import './App.css';
 
 class Store extends Component {
-    calculateRate = props => {}
-
-    render() {
-        console.log("Store: ", this.props)
-        
+    render() {        
         return (
             <div>
                 <h1>Store</h1>
