@@ -63,7 +63,7 @@ class Login extends Component {
         const { username, password, message, loggedIn } = this.state
         console.log(this.state)
 
-        // Once user logs in successfully, redirect to /clicker (where the game begins)
+        // When user logs in successfully, redirect to /clicker (game) page
         if (loggedIn) {
             return <Redirect to='/clicker' />
         }

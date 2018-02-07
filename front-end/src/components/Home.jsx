@@ -32,15 +32,23 @@ class Home extends Component {
         })
     }
 
+    setUser = user => {
+        this.setState({ user: user })
+    }
+
     renderLoginPage = () => {
         return (
-            <Login toggleRegisterFalse={this.toggleRegisterFalse} />
+            <Login
+                toggleRegisterFalse={this.toggleRegisterFalse}
+                setUser={this.setUser} />
         )
     }
 
     renderRegister = () => {
         return (
-            <Register toggleRegisterTrue={this.toggleRegisterTrue} />
+            <Register
+                toggleRegisterTrue={this.toggleRegisterTrue}
+                setUser={this.setUser} />
         )
     }
 
@@ -52,7 +60,7 @@ class Home extends Component {
 
     renderLogout = () => {
         return (
-            <Logout />
+            <Logout setUser={this.setUser} />
         )
     }
 
