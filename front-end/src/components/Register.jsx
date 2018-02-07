@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router' 
 import axios from 'axios'
 
 class Register extends Component {
@@ -7,12 +8,13 @@ class Register extends Component {
         this.state = {
             username: '',
             password: '',
-            message: ''
+            message: '',
+            loggedIn: false
         }
     }
 
     componentDidMount() {
-        this.props.toggleRegisterTrue() 
+        this.props.toggleRegisterTrue()
     }
 
     // User clicks Register button 
@@ -40,27 +42,32 @@ class Register extends Component {
                     password: password
                 })
                 .then(res => {
-                    let newUser = res.data
+                    // let newUser = res.data
 
                     // Make a post request to /login with new user's username and password 
-                    axios
-                        .post('/login', {
-                            username: newUser.username,
-                            password: newUser.password
-                        })
-                        .then(res => {
-                            console.log(res.data)
-                            this.setState({
-                                user: res.data,
-                                loggedIn: true
-                            })
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            this.setState({
-                                message: 'Error logging in after register'
-                            })
-                        })
+                    // axios
+                    //     .post('/login', {
+                    //         username: newUser.username,
+                    //         password: newUser.password
+                    //     })
+                    //     .then(res => {
+                    //         console.log(res.data)
+                    //         this.setState({
+                    //             user: res.data,
+                    //             loggedIn: true
+                    //         })
+                    //     })
+                    //     .catch(err => {
+                    //         console.log(err)
+                    //         this.setState({
+                    //             message: 'Error logging in after register'
+                    //         })
+                    //     })
+                    console.log(res.data)
+                    this.props.setUser(res.data)
+                    this.setState({
+                        loggedIn: true
+                    })
                 })
                 .catch(err => {
                     console.log(err)
@@ -81,9 +88,14 @@ class Register extends Component {
     }
 
     render() {
-        const { username, password, message } = this.state
-        console.log(this.state) 
-        
+        const { username, password, message, loggedIn } = this.state
+        console.log(this.state)
+
+        // When user logs in, redirect to /clicker (game) page 
+        if (loggedIn) {
+            return <Redirect to='/clicker' />
+        }
+
         return (
             <div>
                 <form onSubmit={this.handleRegister}>
