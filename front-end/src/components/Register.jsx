@@ -12,7 +12,7 @@ class Register extends Component {
     }
 
     componentDidMount() {
-        this.props.toggleRegister() 
+        this.props.toggleRegisterTrue() 
     }
 
     // User clicks Register button 
@@ -82,7 +82,7 @@ class Register extends Component {
 
     render() {
         const { username, password, message } = this.state
-
+        console.log(this.state) 
         
         return (
             <div>

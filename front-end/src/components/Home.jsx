@@ -19,15 +19,16 @@ class Home extends Component {
         }
     }
 
-    toggleRegister = () => {
+    // Making a single toggle function didn't work, so I made two separate functions 
+    toggleRegisterTrue = () => {
         this.setState({
-            register: !this.state.register
+            register: true
         })
     }
 
     toggleRegisterFalse = () => {
         this.setState({
-            register: false 
+            register: false
         })
     }
 
@@ -39,7 +40,7 @@ class Home extends Component {
 
     renderRegister = () => {
         return (
-            <Register toggleRegister={this.toggleRegister} />
+            <Register toggleRegisterTrue={this.toggleRegisterTrue} />
         )
     }
 

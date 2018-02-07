@@ -46,7 +46,7 @@ class Login extends Component {
                     this.setState({
                         username: '',
                         password: '',
-                        message: 'Error logging in'
+                        message: 'Username/password not found'
                     })
                 })
         }
@@ -61,7 +61,9 @@ class Login extends Component {
 
     render() {
         const { username, password, message, loggedIn } = this.state
+        console.log(this.state)
 
+        // Once user logs in successfully, redirect to /clicker (where the game begins)
         if (loggedIn) {
             return <Redirect to='/clicker' />
         }
