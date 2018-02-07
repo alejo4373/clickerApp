@@ -10,7 +10,7 @@ module.exports = () => {
   passport.deserializeUser((username, done) => {
     console.log("desirealize");
     db
-      .one("SELECT username, hobbies FROM users WHERE username=$1", [username])
+      .one("SELECT username FROM users WHERE username=$1", [username])
       .then(user => {
         done(null, user);
       })

@@ -2,7 +2,32 @@ const db = require("./index");
 const authHelpers = require("../auth/helpers");
 const passport = require("../auth/local");
 
-
+function registerUser(req, res, next) {
+  return authHelpers
+    .createUser(req)
+    .then(response => {
+      passport.authenticate("local", (err, user, info) => {
+        if (user) {
+          //LoggsIn the user once the authentication was succesful
+          req.logIn(user, (err) =>{
+            if (err) { res.status(500).send('error') }
+            else {
+              res.status(200).json({
+              status: "success",
+              data: user,
+              message: "Registered one user and loggedin the new user" });
+            }
+          })
+        }
+    })(req, res, next);
+    })
+    .catch(err => {
+      res.status(500).json({
+        status: "error",
+        error: err
+      });
+    });
+}
 
 function getUser(req, res, next) {
   db
@@ -59,32 +84,11 @@ function logoutUser(req, res, next) {
   res.status(200).send("log out success");
 }
 
-function registerUser(req, res, next) {
-  return authHelpers
-    .createUser(req)
-    .then(response => {
-      passport.authenticate("local", (err, user, info) => {
-        if (user) {
-          res.status(200).json({
-            status: "success",
-            data: user,
-            message: "Registered one user"
-          });
-        }
-      })(req, res, next);
-    })
-    .catch(err => {
-      res.status(500).json({
-        status: "error",
-        error: err
-      });
-    });
-}
 
 module.exports = {
   getUser: getUser,
   registerUser: registerUser,
   updateUser: updateUser,
   loginUser: loginUser,
-  logoutuser: logoutUser,
+  logoutUser: logoutUser,
 };
