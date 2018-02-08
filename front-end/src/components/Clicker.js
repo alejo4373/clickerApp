@@ -3,7 +3,7 @@ import {Link, Route} from 'react-router-dom';
 import Store from './Store';
 import socketIOClient from "socket.io-client";
 import CCC from '../ccc-streamer-utilities.js'
-import DisplayCount from './DisplayCount'
+// import DisplayCount from './DisplayCount'
 
 const coinDisplayStyle = {
   display: 'inline-block',
