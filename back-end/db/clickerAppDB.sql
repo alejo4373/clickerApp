@@ -5,8 +5,8 @@ CREATE DATABASE clicker_app_db;
 \c clicker_app_db;
 
 CREATE TABLE users (
-  ID SERIAL PRIMARY KEY,
-  username VARCHAR,
+  id SERIAL PRIMARY KEY,
+  username VARCHAR UNIQUE,
   password_digest VARCHAR,
   points INTEGER,
   powerups VARCHAR
